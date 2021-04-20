@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div class="row">
+    <div class="">
+        {% if chart %}
+            <img src="data:image/png;base64, {{ chart|safe }}">
+        {% endif %}
+    </div>
+    </div>
+
+{% endblock %}

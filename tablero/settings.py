@@ -28,7 +28,7 @@ INSTALLED_APPS = [
     'objetivos',
     'debug_toolbar',
     'reportes',
-    'treewidget'
+    'treewidget',
 ]
 
 MIDDLEWARE = [

@@ -3,11 +3,14 @@ from math import *
 import numexpr
 
 
-def calcular(indic):
+def calcular(indic, date_Until):
+    #Calcula el valor del indicador a la ultima fecha disponible anterior a date_Until
     indicador = Indicador.objects.get(pk=indic)
     tipofuncion = Tipofuncion.objects.get(pk=indicador.tipofuncion_id)
-    parametro = Parametro.objects.filter(indicador_id=indicador.id).last()
-    data = Data.objects.filter(indicador_id=indicador.id).last()
+    parametro = Parametro.objects.filter(vigencia__lte = date_Until, indicador_id=indicador.id).last()    
+    #parametro = Parametro.objects.filter(indicador_id=indicador.id).last()
+    data = Data.objects.filter(datetime__lte = date_Until, indicador_id=indicador.id).last()
+    #data = Data.objects.filter(indicador_id=indicador.id).last()
     x = data.value
     a = parametro.parama
     b = parametro.paramb

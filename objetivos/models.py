@@ -10,6 +10,7 @@ class Objetivo(MPTTModel):
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
     tiene_indicador = models.BooleanField()
     id_indicador = models.ForeignKey('Indicador', on_delete=models.CASCADE, null=True, blank=True)
+    prefer = models.FloatField(default=1)
     class MPTTMeta:
         order_insertion_by = ['name']
 

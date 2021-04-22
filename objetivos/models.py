@@ -5,10 +5,11 @@ from treewidget.fields import TreeForeignKey
 
 
 class Objetivo(MPTTModel):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=500)
     createdAt = models.DateTimeField()
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
-
+    tiene_indicador = models.BooleanField()
+    id_indicador = models.ForeignKey('Indicador', on_delete=models.CASCADE, null=True, blank=True)
     class MPTTMeta:
         order_insertion_by = ['name']
 
@@ -60,7 +61,7 @@ class Indicador(models.Model):
     tipofuncion = models.ForeignKey(Tipofuncion, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
-        return self.name
+        return "%s %s" %(self.id, self.name)
 
     class Meta:
         ordering = ['name']
@@ -80,6 +81,8 @@ class Parametro(models.Model):
         ordering = ['created']
         # ordering = ('-created',)
 
+    def __str__(self):
+        return "%s %s" % (self.indicador.name, self.vigencia)
 
 class Data(models.Model):
     datetime = models.DateTimeField()

@@ -1,6 +1,8 @@
 from django.http import HttpResponse
+from django.shortcuts import render
 from datetime import date, datetime
 import numpy as np
+import plotly.graph_objects as go
 
 from .utils import calcular, calcular_objetivo
 
@@ -26,4 +28,17 @@ def armar_tablero(request, id_obj, date_Until_text):
     
     matrix_transversa = np.array(matrix_resultados).T
 
-    return HttpResponse(matrix_transversa)
+    fig = go.Figure(go.Sunburst(
+        labels= matrix_transversa[0],
+        parents= matrix_transversa[1],
+        values= matrix_transversa[2],
+        #maxdepth=3,
+        #branchvalues = 'total',
+        #branchvalues = "remainder",
+        #marker=marcadores,
+        ))
+    fig.show()
+        
+    fig.update_layout(margin = dict(t=0, l=0, r=0, b=0))
+    
+    return render(request, "plantilla_diagrama.html", {"imagen":fig} )

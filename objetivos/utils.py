@@ -36,7 +36,7 @@ def calcular_objetivo(id_obj, date_Until, matrix):
     #Primero verificar si tiene indicador asociado
     objetivo = Objetivo.objects.get(pk=id_obj)
     if objetivo.tiene_indicador:
-        print(objetivo.id_indicador)
+        #print(objetivo.id_indicador)
         co = calcular(objetivo.id_indicador.id, date_Until)
         #print(co)
         if co == None:
@@ -52,7 +52,7 @@ def calcular_objetivo(id_obj, date_Until, matrix):
                         color = "#FF8800"
                     else:
                         color = "#FF0000"
-        elem = [objetivo.id_indicador.name, objetivo.name, 1, color, co]
+        elem = [objetivo.codigo, objetivo.parent.codigo, 1, color, co]
     else:
         #Averiguar los hijos de objetivo
         hijos = objetivo.get_children()
@@ -85,15 +85,15 @@ def calcular_objetivo(id_obj, date_Until, matrix):
                             color = "#FF0000"
 
             #Si no tiene padre (en el caso de raiz) dejar una cadena vacia
-            if objetivo.parent.name:
+            if objetivo.parent:
                 padre = objetivo.parent.name
             else:
-                padre = ""
+                padre = "Raiz"
 
-            elem = [objetivo.name, padre, objetivo.prefer, color, valor]
+            elem = [objetivo.codigo, padre, objetivo.prefer, color, valor]
         else:
             #El objetivo no tiene ni indicador ni hijos .. Dejar en gris
-            elem = [objetivo.name, objetivo.parent.name, 0, "#D4D4D4", None]
+            elem = [objetivo.codigo, objetivo.parent.codigo, 1, "#D4D4D4", None]
 
     matrix_objetivos.append(elem)
     return matrix_objetivos

@@ -27,7 +27,8 @@ def armar_tablero(request, id_obj, date_Until_text):
     matrix_resultados = calcular_objetivo(id_obj, date_Until, matrix_objetivos)
     
     matrix_transversa = np.array(matrix_resultados).T
-
+    marcadores=dict(colors=matrix_transversa[3])
+    print(marcadores)
     fig = go.Figure(go.Sunburst(
         labels= matrix_transversa[0],
         parents= matrix_transversa[1],
@@ -35,7 +36,7 @@ def armar_tablero(request, id_obj, date_Until_text):
         #maxdepth=3,
         #branchvalues = 'total',
         #branchvalues = "remainder",
-        #marker=marcadores,
+        marker=marcadores,
         ))
     fig.show()
         

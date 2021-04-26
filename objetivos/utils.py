@@ -18,14 +18,19 @@ def calcular(indic, date_Until):
         #parametro = Parametro.objects.filter(indicador_id=indicador.id).last()
         data = Data.objects.filter(datetime__lte = date_Until, indicador_id=indicador.id).last()
         #data = Data.objects.filter(indicador_id=indicador.id).last()
-        x = data.value
-        a = parametro.parama
-        b = parametro.paramb
-        c = parametro.paramc
-        mifuncion = tipofuncion.func
-        # salida = eval(mifuncion)
-        print(mifuncion)
-        salida = numexpr.evaluate(mifuncion).item()
+        if data:
+            x = data.value
+            a = parametro.parama
+            b = parametro.paramb
+            c = parametro.paramc
+            mifuncion = tipofuncion.func
+            # salida = eval(mifuncion)
+            salida = numexpr.evaluate(mifuncion).item()
+            salida = max(0, min(1, salida))
+            print(indicador.name, mifuncion, salida)
+        else:
+            salida = None
+            print(indicador.name, " no tiene datos o parametros")
         return salida
     #except:
     #    return None
@@ -35,7 +40,7 @@ def calcular_objetivo(id_obj, date_Until, matrix):
 
     #Primero verificar si tiene indicador asociado
     objetivo = Objetivo.objects.get(pk=id_obj)
-    if objetivo.tiene_indicador:
+    if objetivo.id_indicador:
         #print(objetivo.id_indicador)
         co = calcular(objetivo.id_indicador.id, date_Until)
         #print(co)
@@ -56,17 +61,19 @@ def calcular_objetivo(id_obj, date_Until, matrix):
     else:
         #Averiguar los hijos de objetivo
         hijos = objetivo.get_children()
+        #print("%s tiene %s hijos" %(objetivo.codigo, len(hijos)))
         if hijos:
             prefer_acum = 0
             valor_acum = 0
             for hijo in hijos:
                 Item = calcular_objetivo(hijo.id, date_Until, matrix_objetivos)
-                if Item[-1][4]:
+                if Item[-1][4] != None:
                     prefer_acum = prefer_acum + hijo.prefer
                     valor_acum = valor_acum + Item[-1][4] * hijo.prefer
             
             try:
                 valor = valor_acum / prefer_acum
+                print(objetivo.codigo, valor)
             except:
                 valor = None
 
@@ -86,7 +93,7 @@ def calcular_objetivo(id_obj, date_Until, matrix):
 
             #Si no tiene padre (en el caso de raiz) dejar una cadena vacia
             if objetivo.parent:
-                padre = objetivo.parent.name
+                padre = objetivo.parent.codigo
             else:
                 padre = "Raiz"
 

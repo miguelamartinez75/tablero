@@ -28,18 +28,20 @@ def armar_tablero(request, id_obj, date_Until_text):
     
     matrix_transversa = np.array(matrix_resultados).T
     marcadores=dict(colors=matrix_transversa[3])
-    print(marcadores)
+    #print(marcadores)
     fig = go.Figure(go.Sunburst(
-        labels= matrix_transversa[0],
+        ids = matrix_transversa[0],
+        labels= matrix_transversa[0], # + " " + str(matrix_transversa[4]),
         parents= matrix_transversa[1],
         values= matrix_transversa[2],
-        #maxdepth=3,
+        maxdepth=4,
         #branchvalues = 'total',
         #branchvalues = "remainder",
         marker=marcadores,
         ))
-    fig.show()
+    
         
     fig.update_layout(margin = dict(t=0, l=0, r=0, b=0))
-    
+    fig.show()
+
     return render(request, "plantilla_diagrama.html", {"imagen":fig} )

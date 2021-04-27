@@ -8,8 +8,7 @@ import numexpr
 
 def calcular(indic, date_Until):
     #Calcula el valor del indicador a la ultima fecha disponible anterior a date_Until
-    print(indic)
-    
+        
     if 1 == 1:
     #try:
         indicador = Indicador.objects.get(id=indic)
@@ -35,7 +34,7 @@ def calcular(indic, date_Until):
     #except:
     #    return None
 
-def calcular_objetivo(id_obj, date_Until, matrix):
+def calcular_objetivo(id_obj, peso_relativo, date_Until, matrix):
     matrix_objetivos=matrix
 
     #Primero verificar si tiene indicador asociado
@@ -57,22 +56,28 @@ def calcular_objetivo(id_obj, date_Until, matrix):
                         color = "#FF8800"
                     else:
                         color = "#FF0000"
-        elem = [objetivo.codigo, objetivo.parent.codigo, 1, color, co]
+        elem = [objetivo.codigo, objetivo.parent.codigo, peso_relativo, color, co]
     else:
         #Averiguar los hijos de objetivo
         hijos = objetivo.get_children()
         #print("%s tiene %s hijos" %(objetivo.codigo, len(hijos)))
         if hijos:
-            prefer_acum = 0
+            suma_pesos = 0
+            for hijo in hijos:
+                suma_pesos = suma_pesos + hijo.prefer
+            
+
+            #prefer_acum = 0
             valor_acum = 0
             for hijo in hijos:
-                Item = calcular_objetivo(hijo.id, date_Until, matrix_objetivos)
+                peso_hijo = peso_relativo * hijo.prefer / suma_pesos
+                Item = calcular_objetivo(hijo.id, peso_hijo, date_Until, matrix_objetivos)
                 if Item[-1][4] != None:
-                    prefer_acum = prefer_acum + hijo.prefer
-                    valor_acum = valor_acum + Item[-1][4] * hijo.prefer
+                    #prefer_acum = prefer_acum + hijo.prefer
+                    valor_acum = valor_acum + Item[-1][4] * hijo.prefer / suma_pesos
             
             try:
-                valor = valor_acum / prefer_acum
+                valor = valor_acum #/ prefer_acum
                 print(objetivo.codigo, valor)
             except:
                 valor = None
@@ -97,10 +102,10 @@ def calcular_objetivo(id_obj, date_Until, matrix):
             else:
                 padre = "Raiz"
 
-            elem = [objetivo.codigo, padre, objetivo.prefer, color, valor]
+            elem = [objetivo.codigo, padre, 0, color, valor]
         else:
             #El objetivo no tiene ni indicador ni hijos .. Dejar en gris
-            elem = [objetivo.codigo, objetivo.parent.codigo, 1, "#D4D4D4", None]
+            elem = [objetivo.codigo, objetivo.parent.codigo, peso_relativo, "#D4D4D4", None]
 
     matrix_objetivos.append(elem)
     return matrix_objetivos

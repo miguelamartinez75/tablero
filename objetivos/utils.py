@@ -17,7 +17,7 @@ def calcular(indic, date_Until):
         #parametro = Parametro.objects.filter(indicador_id=indicador.id).last()
         data = Data.objects.filter(datetime__lte = date_Until, indicador_id=indicador.id).last()
         #data = Data.objects.filter(indicador_id=indicador.id).last()
-        if data:
+        if data and parametro:
             x = data.value
             a = parametro.parama
             b = parametro.paramb

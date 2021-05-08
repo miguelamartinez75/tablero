@@ -32,10 +32,10 @@ def armar_tablero(request, id_obj, date_Until_text):
     etiquetas = [] #matrix_transversa[0].copy()
     valores = matrix_transversa[4].copy()
     
-    print (etiquetas, valores)
+    #print (etiquetas, valores)
 
     for i in range(0, len(valores)):
-        print(i)
+        #print(i)
         if valores[i] == None:
             etiquetas.append(f"{matrix_transversa[0][i]} <br> <b>Sin datos</b>") 
             #print(etiquetas[i])
@@ -43,7 +43,7 @@ def armar_tablero(request, id_obj, date_Until_text):
             etiquetas.append(f"{matrix_transversa[0][i]} <br> <b>{int(round(float(valores[i])*100, 0))}</b>")
             #print(etiquetas[i])
 
-    print(etiquetas)
+    #print(etiquetas)
     
 
     

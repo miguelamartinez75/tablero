@@ -26,7 +26,7 @@ def calcular(indic, date_Until):
             # salida = eval(mifuncion)
             salida = numexpr.evaluate(mifuncion).item()
             salida = max(0, min(1, salida))
-            print(indicador.name, mifuncion, salida)
+            print(indicador.name, mifuncion, " a: ", parametro.parama, " b: ", parametro.paramb, " dato: ", x, " = ", salida)
         else:
             salida = None
             print(indicador.name, " no tiene datos o parametros")
@@ -78,7 +78,7 @@ def calcular_objetivo(id_obj, peso_relativo, date_Until, matrix):
             
             try:
                 valor = valor_acum #/ prefer_acum
-                print(objetivo.codigo, valor)
+                #print(objetivo.codigo, valor)
             except:
                 valor = None
 
@@ -99,15 +99,22 @@ def calcular_objetivo(id_obj, peso_relativo, date_Until, matrix):
             #Si no tiene padre (en el caso de raiz) dejar una cadena vacia
             if objetivo.parent:
                 padre = objetivo.parent.codigo
+                elem = [objetivo.codigo, padre, 0, color, valor]
+                #matrix_objetivos.append(elem)
             else:
                 padre = "Raiz"
-
+                elem = [objetivo.codigo, padre, 0, color, valor]
+                #matrix_objetivos.append(elem)
+            
             elem = [objetivo.codigo, padre, 0, color, valor]
+
+            
         else:
             #El objetivo no tiene ni indicador ni hijos .. Dejar en gris
             elem = [objetivo.codigo, objetivo.parent.codigo, peso_relativo, "#D4D4D4", None]
+        
+        matrix_objetivos.append(elem)
 
-    matrix_objetivos.append(elem)
     return matrix_objetivos
                 
         

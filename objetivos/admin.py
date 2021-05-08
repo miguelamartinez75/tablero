@@ -3,7 +3,7 @@ from mptt.admin import DraggableMPTTAdmin
 
 from .models import Objetivo, Data, Estructura, Preferencia, Tipofuncion, Indicador, Parametro
 
-admin.site.register(Preferencia)
+#admin.site.register(Preferencia)
 admin.site.register(Tipofuncion)
 admin.site.register(Indicador)
 admin.site.register(Parametro)
@@ -21,6 +21,7 @@ admin.site.register(
     list_display=(
         'tree_actions',
         'indented_title',
+        #'Objetivo.id_indicador'
         # ...more fields if you feel like it...
     ),
     list_display_links=(

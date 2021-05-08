@@ -60,7 +60,7 @@ def calcular_objetivo(id_obj, peso_relativo, date_Until, matrix):
     else:
         #Averiguar los hijos de objetivo
         hijos = objetivo.get_children()
-        #print("%s tiene %s hijos" %(objetivo.codigo, len(hijos)))
+        print("%s tiene %s hijos" %(objetivo.codigo, len(hijos)))
         if hijos:
             suma_pesos = 0
             for hijo in hijos:
@@ -99,11 +99,11 @@ def calcular_objetivo(id_obj, peso_relativo, date_Until, matrix):
             #Si no tiene padre (en el caso de raiz) dejar una cadena vacia
             if objetivo.parent:
                 padre = objetivo.parent.codigo
-                elem = [objetivo.codigo, padre, 0, color, valor]
+                #elem = [objetivo.codigo, padre, objetivo.prefer, color, valor]
                 #matrix_objetivos.append(elem)
             else:
                 padre = "Raiz"
-                elem = [objetivo.codigo, padre, 0, color, valor]
+                #elem = [objetivo.codigo, padre, objetivo.prefer, color, valor]
                 #matrix_objetivos.append(elem)
             
             elem = [objetivo.codigo, padre, 0, color, valor]
@@ -113,7 +113,7 @@ def calcular_objetivo(id_obj, peso_relativo, date_Until, matrix):
             #El objetivo no tiene ni indicador ni hijos .. Dejar en gris
             elem = [objetivo.codigo, objetivo.parent.codigo, peso_relativo, "#D4D4D4", None]
         
-        matrix_objetivos.append(elem)
+    matrix_objetivos.append(elem)
 
     return matrix_objetivos
                 

@@ -66,6 +66,7 @@ def armar_tablero(request, id_obj, date_Until_text):
     return render(request, "plantilla_diagrama.html", {"imagen":fig} )
 
 
+
 def armar_tablero_doble(request, id_obj, date_Until_text):
     #Rojo = "#FF0000"
     #Naranja = "#FF8800"

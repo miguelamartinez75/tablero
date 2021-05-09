@@ -62,6 +62,8 @@ def calcular_objetivo(id_obj, peso_relativo, date_Until, matrix):
         hijos = objetivo.get_children()
         print("%s tiene %s hijos" %(objetivo.codigo, len(hijos)))
         if hijos:
+            
+            #Calcular el total de pesos de los hijos
             suma_pesos = 0
             for hijo in hijos:
                 suma_pesos = suma_pesos + hijo.prefer
@@ -69,16 +71,22 @@ def calcular_objetivo(id_obj, peso_relativo, date_Until, matrix):
 
             #prefer_acum = 0
             valor_acum = 0
+            pesos_nulos = 0
             for hijo in hijos:
                 peso_hijo = peso_relativo * hijo.prefer / suma_pesos
                 Item = calcular_objetivo(hijo.id, peso_hijo, date_Until, matrix_objetivos)
                 if Item[-1][4] != None:
                     #prefer_acum = prefer_acum + hijo.prefer
                     valor_acum = valor_acum + Item[-1][4] * hijo.prefer / suma_pesos
+                else:
+                    pesos_nulos = pesos_nulos + hijo.prefer
             
             try:
-                valor = valor_acum #/ prefer_acum
-                #print(objetivo.codigo, valor)
+                if pesos_nulos > 0:
+                    valor = valor_acum * suma_pesos / (suma_pesos - pesos_nulos)
+                else:
+                    valor = valor_acum #/ prefer_acum
+                    #print(objetivo.codigo, valor)
             except:
                 valor = None
 
@@ -117,6 +125,13 @@ def calcular_objetivo(id_obj, peso_relativo, date_Until, matrix):
 
     return matrix_objetivos
                 
+        
+def ajustar_cadena(texto):
+    #Definir la cantidad de renglones a partir de la longitud de la cadena. Probando con 30 - 72 - 126 - 200
+    if len(texto) <= 30:
+        texto_ajustado = texto
+    elif len(texto) <= 72:
+        #Si el texto es mayor a 30 pero menos a 72, buscar un espacio próximo al centro y reemplazar por <br>
         
 
             

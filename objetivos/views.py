@@ -4,7 +4,7 @@ from datetime import date, datetime, timedelta
 import numpy as np
 import plotly.graph_objects as go
 
-from .utils import calcular, calcular_objetivo
+from .utils import calcular, calcular_objetivo, ajustar_cadena
 
 
 
@@ -90,10 +90,10 @@ def armar_tablero_doble(request, id_obj, date_Until_text):
     for i in range(0, len(valores)):
         #print(i)
         if valores[i] == None:
-            etiquetas.append(f"{matrix_transversa[0][i]} <br> <b>Sin datos</b>") 
+            etiquetas.append(f"{ajustar_cadena(matrix_transversa[0][i])} <br> <b>Sin datos</b>") 
             #print(etiquetas[i])
         else:
-            etiquetas.append(f"{matrix_transversa[0][i]} <br> <b>{int(round(float(valores[i])*100, 0))}</b>")
+            etiquetas.append(f"{ajustar_cadena(matrix_transversa[0][i])} <br> <b>{int(round(float(valores[i])*100, 0))}</b>")
             #print(etiquetas[i])
 
     #print(etiquetas)

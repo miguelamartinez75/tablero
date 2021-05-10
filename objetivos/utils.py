@@ -128,11 +128,49 @@ def calcular_objetivo(id_obj, peso_relativo, date_Until, matrix):
         
 def ajustar_cadena(texto):
     #Definir la cantidad de renglones a partir de la longitud de la cadena. Probando con 30 - 72 - 126 - 200
-    if len(texto) <= 30:
+    if len(texto) <= 25:
         texto_ajustado = texto
-    elif len(texto) <= 72:
-        #Si el texto es mayor a 30 pero menos a 72, buscar un espacio próximo al centro y reemplazar por <br>
+    elif len(texto) <= 62:
         
+        primer_corte = int(len(texto)/2)
+        texto_ajustado = cortar_texto(texto, primer_corte, int(primer_corte*1.5))       
+
+
+
+        ##Si el texto es mayor a 30 pero menos a 72, buscar un espacio próximo al centro y reemplazar por <br>
+        #inicio = int(len(texto)/3)
+        #medio = int(len(texto)/2)
+        #if " " in texto[inicio: inicio * 2]:
+        #    texto_ajustado = texto[0: inicio] + texto[inicio: inicio * 2].replace(" ", "<br>", 1) + texto[inicio * 2:]
+        #else:
+        #    texto_ajustado = texto[0:medio] + "<br>" + texto[medio:]
+    
+    elif len(texto) <= 117:
+        primer_corte = int(len(texto)/3)
+        texto_ajustado = cortar_texto(texto, primer_corte, primer_corte)
+        segundo_corte = primer_corte * 2
+        texto_ajustado = cortar_texto(texto_ajustado, segundo_corte, primer_corte)
+
+    else:
+        texto_ajustado = texto
+    return texto_ajustado
+
+
+def cortar_texto(texto, ubicacion, rango):
+    #Primero buscar un espacio próximo al punto central del corte.
+    print(texto[ubicacion - int(rango/2):ubicacion + int(rango/2)])
+
+    if " " in texto[ubicacion - int(rango/6):ubicacion + int(rango/6)]:
+        texto_cortado = texto[0: ubicacion - int(rango/6)] + texto[ubicacion - int(rango/6): ubicacion + int(rango/6)].replace(" ", "<br>", 1) + texto[ubicacion + int(rango/6):]
+    elif " " in texto[ubicacion - int(rango/4):ubicacion + int(rango/4)]:
+        texto_cortado = texto[0: ubicacion - int(rango/4)] + texto[ubicacion - int(rango/4): ubicacion + int(rango/4)].replace(" ", "<br>", 1) + texto[ubicacion + int(rango/4):]
+    elif " " in texto[ubicacion - int(rango/2):ubicacion + int(rango/2)]:
+        texto_cortado = texto[0: ubicacion - int(rango/2)] + texto[ubicacion - int(rango/2): ubicacion + int(rango/2)].replace(" ", "<br>", 1) + texto[ubicacion + int(rango/2):]
+    else:
+        texto_cortado = texto[0:ubicacion] + "<br>" + texto[ubicacion:]
+    
+    return texto_cortado
+
 
             
 

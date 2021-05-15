@@ -52,7 +52,7 @@ def armar_tablero(request, id_obj, date_Until_text):
         labels = etiquetas, # + " " + str(matrix_transversa[4]),
         parents = matrix_transversa[1],
         values = matrix_transversa[2],
-        maxdepth = 4,
+        maxdepth = 3,
         #branchvalues = 'total',
         #branchvalues = "remainder",
         marker=marcadores,

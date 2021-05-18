@@ -60,7 +60,7 @@ def calcular_objetivo(id_obj, peso_relativo, date_Until, matrix):
     else:
         #Averiguar los hijos de objetivo
         hijos = objetivo.get_children()
-        print("%s tiene %s hijos" %(objetivo.codigo, len(hijos)))
+        #print("%s tiene %s hijos" %(objetivo.codigo, len(hijos)))
         if hijos:
             
             #Calcular el total de pesos de los hijos
@@ -158,7 +158,7 @@ def ajustar_cadena(texto):
 
 def cortar_texto(texto, ubicacion, rango):
     #Primero buscar un espacio próximo al punto central del corte.
-    print(texto[ubicacion - int(rango/2):ubicacion + int(rango/2)])
+    #print(texto[ubicacion - int(rango/2):ubicacion + int(rango/2)])
 
     if " " in texto[ubicacion - int(rango/6):ubicacion + int(rango/6)]:
         texto_cortado = texto[0: ubicacion - int(rango/6)] + texto[ubicacion - int(rango/6): ubicacion + int(rango/6)].replace(" ", "<br>", 1) + texto[ubicacion + int(rango/6):]

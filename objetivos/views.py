@@ -67,7 +67,7 @@ def armar_tablero(request, id_obj, date_Until_text):
 
 
 
-def armar_tablero_doble(request, id_obj, date_Until_text):
+def armar_tablero_doble(request, id_obj, date_until_text, delta_fechas):
     #Rojo = "#FF0000"
     #Naranja = "#FF8800"
     #Amarillo = "#FFFF00"
@@ -76,8 +76,8 @@ def armar_tablero_doble(request, id_obj, date_Until_text):
     print("Primer diagrama")
 
     matrix_objetivos=[]
-    date_Until = datetime.strptime(date_Until_text, '%d-%m-%Y')
-    matrix_resultados = calcular_objetivo(id_obj, 100, date_Until, matrix_objetivos)
+    date_until = datetime.strptime(date_until_text, '%d-%m-%Y')
+    matrix_resultados = calcular_objetivo(id_obj, 100, date_until, matrix_objetivos)
     
     matrix_transversa = np.array(matrix_resultados).T
     marcadores=dict(colors=matrix_transversa[3])
@@ -127,12 +127,11 @@ def armar_tablero_doble(request, id_obj, date_Until_text):
     #Aca se calcula el semaforo comparativo, para el trimestre anterior
     matrix_objetivos=[]
     delta = timedelta(days=90)
+    date_until = datetime.strptime(date_until_text, '%d-%m-%Y') - delta
+    #print(date_until)
 
-    date_Until = datetime.strptime(date_Until_text, '%d-%m-%Y') - delta
-    print(date_Until)
 
-
-    matrix_resultados = calcular_objetivo(id_obj, 100, date_Until, matrix_objetivos)
+    matrix_resultados = calcular_objetivo(id_obj, 100, date_until, matrix_objetivos)
     
     matrix_transversa = np.array(matrix_resultados).T
     marcadores=dict(colors=matrix_transversa[3])
@@ -145,10 +144,10 @@ def armar_tablero_doble(request, id_obj, date_Until_text):
     for i in range(0, len(valores)):
         #print(i)
         if valores[i] == None:
-            etiquetas.append(f"{matrix_transversa[0][i]} <br> <b>Sin datos</b>") 
+            etiquetas.append(f"{ajustar_cadena(matrix_transversa[0][i])} <br> <b>Sin datos</b>") 
             #print(etiquetas[i])
         else:
-            etiquetas.append(f"{matrix_transversa[0][i]} <br> <b>{int(round(float(valores[i])*100, 0))}</b>")
+            etiquetas.append(f"{ajustar_cadena(matrix_transversa[0][i])} <br> <b>{int(round(float(valores[i])*100, 0))}</b>")
             #print(etiquetas[i])
     
     fig.add_trace(go.Sunburst(

@@ -5,11 +5,13 @@ from treewidget.fields import TreeForeignKey
 
 
 class Objetivo(MPTTModel):
+    codigo = models.CharField(max_length=50, null=True)
     name = models.CharField(max_length=500)
     createdAt = models.DateTimeField()
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
     tiene_indicador = models.BooleanField()
     id_indicador = models.ForeignKey('Indicador', on_delete=models.CASCADE, null=True, blank=True)
+    prefer = models.FloatField(default=1)
     class MPTTMeta:
         order_insertion_by = ['name']
 
